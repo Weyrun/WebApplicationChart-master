@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DreamHomeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PropertyForRent">
+          <Key>
+            <PropertyRef Name="PropertyNo" />
+          </Key>
+          <Property Name="PropertyNo" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Street" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Postcode" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="PropertyType" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Rooms" Type="smallint" Nullable="false" />
+          <Property Name="Rent" Type="decimal" Precision="5" Scale="1" Nullable="false" />
+          <Property Name="OwnerNo" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="StaffNo" Type="varchar" MaxLength="5" />
+          <Property Name="BranchNo" Type="char" MaxLength="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Viewing">
+          <Key>
+            <PropertyRef Name="ClientNo" />
+            <PropertyRef Name="PropertyNo" />
+          </Key>
+          <Property Name="ClientNo" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="PropertyNo" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="ViewDate" Type="date" Nullable="false" />
+          <Property Name="Comments" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="Viewing_Propty_FK">
+          <End Role="PropertyForRent" Type="Self.PropertyForRent" Multiplicity="1" />
+          <End Role="Viewing" Type="Self.Viewing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PropertyForRent">
+              <PropertyRef Name="PropertyNo" />
+            </Principal>
+            <Dependent Role="Viewing">
+              <PropertyRef Name="PropertyNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DreamHomeModelStoreContainer">
+          <EntitySet Name="PropertyForRent" EntityType="Self.PropertyForRent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Viewing" EntityType="Self.Viewing" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="Viewing_Propty_FK" Association="Self.Viewing_Propty_FK">
+            <End Role="PropertyForRent" EntitySet="PropertyForRent" />
+            <End Role="Viewing" EntitySet="Viewing" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DreamHomeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PropertyForRent">
+          <Key>
+            <PropertyRef Name="PropertyNo" />
+          </Key>
+          <Property Name="PropertyNo" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Street" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Postcode" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PropertyType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Rooms" Type="Int16" Nullable="false" />
+          <Property Name="Rent" Type="Decimal" Precision="5" Scale="1" Nullable="false" />
+          <Property Name="OwnerNo" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StaffNo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="BranchNo" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Viewing" Relationship="Self.Viewing_Propty_FK" FromRole="PropertyForRent" ToRole="Viewing" />
+        </EntityType>
+        <EntityType Name="Viewing">
+          <Key>
+            <PropertyRef Name="ClientNo" />
+            <PropertyRef Name="PropertyNo" />
+          </Key>
+          <Property Name="ClientNo" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PropertyNo" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ViewDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Comments" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PropertyForRent" Relationship="Self.Viewing_Propty_FK" FromRole="Viewing" ToRole="PropertyForRent" />
+        </EntityType>
+        <Association Name="Viewing_Propty_FK">
+          <End Role="PropertyForRent" Type="Self.PropertyForRent" Multiplicity="1" />
+          <End Role="Viewing" Type="Self.Viewing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PropertyForRent">
+              <PropertyRef Name="PropertyNo" />
+            </Principal>
+            <Dependent Role="Viewing">
+              <PropertyRef Name="PropertyNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DreamHomeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PropertyForRent" EntityType="Self.PropertyForRent" />
+          <EntitySet Name="Viewing" EntityType="Self.Viewing" />
+          <AssociationSet Name="Viewing_Propty_FK" Association="Self.Viewing_Propty_FK">
+            <End Role="PropertyForRent" EntitySet="PropertyForRent" />
+            <End Role="Viewing" EntitySet="Viewing" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DreamHomeModelStoreContainer" CdmEntityContainer="DreamHomeEntities">
+          <EntitySetMapping Name="PropertyForRent">
+            <EntityTypeMapping TypeName="DreamHomeModel.PropertyForRent">
+              <MappingFragment StoreEntitySet="PropertyForRent">
+                <ScalarProperty Name="PropertyNo" ColumnName="PropertyNo" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="PropertyType" ColumnName="PropertyType" />
+                <ScalarProperty Name="Rooms" ColumnName="Rooms" />
+                <ScalarProperty Name="Rent" ColumnName="Rent" />
+                <ScalarProperty Name="OwnerNo" ColumnName="OwnerNo" />
+                <ScalarProperty Name="StaffNo" ColumnName="StaffNo" />
+                <ScalarProperty Name="BranchNo" ColumnName="BranchNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Viewing">
+            <EntityTypeMapping TypeName="DreamHomeModel.Viewing">
+              <MappingFragment StoreEntitySet="Viewing">
+                <ScalarProperty Name="ClientNo" ColumnName="ClientNo" />
+                <ScalarProperty Name="PropertyNo" ColumnName="PropertyNo" />
+                <ScalarProperty Name="ViewDate" ColumnName="ViewDate" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

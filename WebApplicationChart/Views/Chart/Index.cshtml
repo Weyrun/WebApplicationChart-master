@@ -1,0 +1,59 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Charts";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div id="chartContainer">
+    
+    <table>
+
+            <tr>
+                <th colspan="2" style="height: 100px; text-align: center">
+                    <b>GDP DashBoard of Top Countries</b>
+
+                </th>
+            </tr>
+            <tr>
+                <td rowspan="2">
+                    <img src="@Url.Action("CreateCountryGDPBar")" />
+                </td>
+            </tr>
+        </table>
+</div>
+<script type="text/javascript">
+    var result = @Html.Raw(ViewBag.PropertyForRent);
+    var propertyForRent =[];
+    for(var i = 0; i < result.length; i++)
+    {
+        propertyForRent.push({label:result[i].x, y:result[i].y});
+    }
+ 
+    $(function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light2",
+            zoomEnabled: true,
+            animationEnabled: true,
+            title: {
+                text: "Line Chart with Data-Points from DataBase"
+            },
+            data: [
+                {
+                    type: "line",
+ 
+                    PropertyForRent: PropertyForRent,
+                }
+            ]
+        });
+        chart.render();
+    });
+</script>
+</body>
+</html>
